@@ -20,6 +20,6 @@ app.use(cors({
 app.use('/api/auth', authRoutes); // All authentication-related routes will be prefixed with /api/auth
 
 const PORT = process.env.PORT || 5000;
-mongoose.connect(process.env.MONGODB_URI as string)
+mongoose.connect(process.env.MONGO_URI as string)
     .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
-    .catch(err => console.error('MongoDB connection error:', err));
+    .catch((err) => console.error('MongoDB connection error:', err));

@@ -36,7 +36,7 @@ export const register = async (req: Request, res: Response) => {
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Use 'secure' em produção
+            secure: process.env.NODE_ENV === 'production', 
             sameSite: 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 dias
         });
@@ -51,7 +51,7 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).select('+password');
         if (!user) {
             return res.status(401).json({ message: 'Invalid credentials.' });
         }

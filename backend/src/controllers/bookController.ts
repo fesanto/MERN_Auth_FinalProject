@@ -8,7 +8,6 @@ export const searchBooks = async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'Search query is required' });
     }
 
-    // A sua chave da API do Google deve estar no arquivo .env
     const GOOGLE_BOOKS_API_KEY = process.env.GOOGLE_BOOKS_API_KEY;
     const API_URL = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${GOOGLE_BOOKS_API_KEY}`;
 

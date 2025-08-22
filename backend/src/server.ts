@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 
 import authRoutes from './routes/authRoutes';
 import bookRoutes from './routes/bookRoutes';
+import reviewRoutes from './routes/reviewRoutes';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(cors({
 
 app.use('/api/auth', authRoutes); // All authentication-related routes will be prefixed with /api/auth
 app.use('/api/books', bookRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.MONGO_URI as string)

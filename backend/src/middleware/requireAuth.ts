@@ -7,12 +7,17 @@ interface JwtPayload {
     id: string | mongoose.Types.ObjectId;
 }
 
-interface AuthRequest extends Request {
+export interface AuthRequest extends Request {
     user?: IUser | null;
 }
 
 const requireAuth = async (req: AuthRequest, res: Response, next: NextFunction) => {
-    const { token } = req.cookies;
+    let token;
+
+    // Reading the header token instead of the cookies
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        token = req.headers.authorization.split(' ')[1];
+    }
 
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized. Token not provided.' });
@@ -35,7 +40,7 @@ const requireAuth = async (req: AuthRequest, res: Response, next: NextFunction) 
             return res.status(401).json({ message: 'User not found.' });
         }
 
-        next(); 
+        next();
     } catch (err) {
         res.status(401).json({ message: 'Invalid token.' });
     }

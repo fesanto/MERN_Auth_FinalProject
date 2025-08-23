@@ -34,13 +34,6 @@ export const register = async (req: Request, res: Response) => {
 
         const token = createToken(user._id as mongoose.Types.ObjectId);
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', 
-            sameSite: 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 dias
-        });
-
         res.status(201).json({ id: user._id, email: user.email, token: token });
     } catch (err) {
         res.status(500).json({ message: 'Error when registering user.' });
@@ -63,22 +56,10 @@ export const login = async (req: Request, res: Response) => {
 
         const token = createToken(user._id as mongoose.Types.ObjectId);
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        });
-
         res.json({ id: user._id, email: user.email, token: token });
     } catch (err) {
         res.status(500).json({ message: 'Error logging in.' });
     }
-};
-
-// Logout user by clearing the cookie
-export const logout = (req: Request, res: Response) => {
-    res.clearCookie('token').json({ message: 'Logout successful.' });
 };
 
 // Get the logged user's information

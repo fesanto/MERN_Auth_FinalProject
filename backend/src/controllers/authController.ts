@@ -41,7 +41,7 @@ export const register = async (req: Request, res: Response) => {
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 dias
         });
 
-        res.status(201).json({ id: user._id, email: user.email });
+        res.status(201).json({ id: user._id, email: user.email, token: token });
     } catch (err) {
         res.status(500).json({ message: 'Error when registering user.' });
     }
@@ -70,7 +70,7 @@ export const login = async (req: Request, res: Response) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
-        res.json({ id: user._id, email: user.email });
+        res.json({ id: user._id, email: user.email, token: token });
     } catch (err) {
         res.status(500).json({ message: 'Error logging in.' });
     }

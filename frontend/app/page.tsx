@@ -23,10 +23,10 @@ export default function Home() {
           Discover new books, share your opinions, and find your next great read through a community of readers like you.
         </p>
 
-        <p><Link href="/pages/login" className={styles.button}>Start your journey</Link></p>
+        <p><Link href="/login" className={styles.button}>Start your journey</Link></p>
         <br/>
         <p>Don't have an account?</p>
-        <p><Link href="/pages/register" className={styles.button}>Register here</Link></p>
+        <p><Link href="/register" className={styles.button}>Register here</Link></p>
 
       </main>
     </div>

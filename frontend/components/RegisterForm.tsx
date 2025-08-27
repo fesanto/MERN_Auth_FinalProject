@@ -61,8 +61,8 @@ export default function RegisterForm() {
                 placeholder="Password"
                 required
             />
-            <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Logging in...' : 'Log in'}
+            <Button type="submit">
+                Register
             </Button>
         </form>
     );

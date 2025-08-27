@@ -16,6 +16,14 @@
   font-family: var(--font-geist-sans);
 }
 
+.button {
+  background-color: #8328a7;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
 @media (prefers-color-scheme: dark) {
   .page {
     --gray-rgb: 255, 255, 255;

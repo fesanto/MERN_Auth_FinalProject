@@ -6,28 +6,35 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
+        <div className={styles.hero}>
+          <p className={styles.welcomeText}>Welcome to</p>
 
-        <h1 className={styles.title}>
-          Welcome to
-        </h1>
+          <div className={styles.logoContainer}>
+            <Image
+              src="/logo.png"
+              alt="Read & Review Logo"
+              width={200}
+              height={200}
+              priority
+            />
+          </div>
 
-        <Image
-          src="/logo.png"
-          alt="Read & Review Logo"
-          width={200}
-          height={200}
-          priority
-        />
+          <p className={styles.subtitle}>
+            Discover new books, share your opinions, and find your next great read through a community of readers like you.
+          </p>
 
-        <p className={styles.subtitle}>
-          Discover new books, share your opinions, and find your next great read through a community of readers like you.
-        </p>
+          <Link href="/login" className={styles.ctaButton}>
+            Start your journey
+          </Link>
 
-        <p><Link href="/pages/login" className={styles.button}>Start your journey</Link></p>
-        <br/>
-        <p>Don't have an account?</p>
-        <p><Link href="/pages/register" className={styles.button}>Register here</Link></p>
+          <p className={styles.subtitle}>
+            Don't have an account?
+          </p>
 
+          <Link href="/register" className={styles.ctaButton}>
+            Register here
+          </Link>
+        </div>
       </main>
     </div>
   );

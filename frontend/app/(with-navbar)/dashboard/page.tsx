@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import SearchBar from '@/components/SearchBar';
 import SearchResults from '@/components/SearchResults';
 import { Book } from '@/types';
+import styles from './dashboard.module.css'
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -20,10 +21,11 @@ export default function DashboardPage() {
     }, [router]);
 
     return (
-        <div>
-            <h1>My Dashboard</h1>
-            <p>Welcome! Here you can search for your books and leave your reviews.</p>
-
+        <main className={styles.main}>
+            <div className={styles.header}>
+                <h1>My Dashboard</h1>
+                <p>Welcome! Here you can search for your books and leave your reviews.</p>
+            </div>
             <SearchBar
                 onSearchResults={(results) => {
                     setSearchResults(results);
@@ -33,8 +35,10 @@ export default function DashboardPage() {
                 onSearchEnd={() => setIsLoading(false)}
             />
 
-            {/* Only displays the results area if a search has already been initiated. */}
-            {hasSearched && <SearchResults results={searchResults} isLoading={isLoading} />}
-        </div>
+            <div className={styles.resultsContainer}>
+                {/* Only displays the results area if a search has already been initiated. */}
+                {hasSearched && <SearchResults results={searchResults} isLoading={isLoading} />}
+            </div>
+        </main>
     )
 }

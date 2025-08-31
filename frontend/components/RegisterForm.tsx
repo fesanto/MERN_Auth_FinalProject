@@ -3,6 +3,7 @@
 import { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import styles from './Form.module.css';
 import Button from './Button';
 
 export default function RegisterForm() {
@@ -38,32 +39,43 @@ export default function RegisterForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', maxWidth: '400px', gap: '10px' }}>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Name"
-                required
-            />
-            <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-            />
-            <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-            />
-            <Button type="submit">
-                Register
-            </Button>
-        </form>
+        <div className={styles.wrapper}>
+            <div className={styles.formContainer}>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>Register</h1>
+                </div>
+                <form onSubmit={handleSubmit} className={styles.form}>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Name"
+                        className={styles.input}
+                        required
+                    />
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email"
+                        className={styles.input}
+                        required
+                    />
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                        className={styles.input}
+                        required
+                    />
+                    <Button type="submit">
+                        Register
+                    </Button>
+                </form>
+            </div>
+        </div>
+
     );
 }

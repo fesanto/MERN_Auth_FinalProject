@@ -1,0 +1,25 @@
+.main {
+    padding: 2rem 4rem;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.header {
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.resultsContainer {
+    margin-top: 2.5rem;
+}

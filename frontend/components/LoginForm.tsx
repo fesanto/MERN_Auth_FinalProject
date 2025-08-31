@@ -3,6 +3,8 @@
 import { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import styles from './Form.module.css';
 import Button from './Button';
 
 export default function LoginForm() {
@@ -43,25 +45,42 @@ export default function LoginForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', maxWidth: '400px', gap: '10px' }}>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-            />
-            <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-            />
-            <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Logging in...' : 'Log in'}
-            </Button>
-        </form>
+        <div className={styles.wrapper}>
+            <div className={styles.formContainer}>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>Login</h1>
+                </div>
+                <form onSubmit={handleSubmit} className={styles.form}>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email"
+                        className={styles.input}
+                        required
+                    />
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                        className={styles.input}
+                        required
+                    />
+                    <Button type="submit" disabled={isLoading}>
+                        {isLoading ? 'Logging in...' : 'Log in'}
+                    </Button>
+                </form>
+
+                <p className={styles.subtitle}>
+                    Don't have an account?
+                </p>
+
+                <Link href="/register" className={styles.ctaButton}>
+                    Register here
+                </Link>
+            </div>
+        </div>
     );
 }

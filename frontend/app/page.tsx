@@ -13,8 +13,8 @@ export default function Home() {
             <Image
               src="/logo.png"
               alt="Read & Review Logo"
-              width={200}
-              height={200}
+              width={500}
+              height={300}
               priority
             />
           </div>

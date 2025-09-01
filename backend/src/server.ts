@@ -16,8 +16,8 @@ const corsOptions = {
     credentials: true
 };
 
-app.use(express.json());
 app.use(cors(corsOptions));
+app.use(express.json());
 
 app.use('/api/auth', authRoutes); // All authentication-related routes will be prefixed with /api/auth
 app.use('/api/books', bookRoutes);

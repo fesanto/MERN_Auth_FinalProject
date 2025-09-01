@@ -22,7 +22,7 @@ const createToken = (id: mongoose.Types.ObjectId): string => {
 
 // Register a new user
 export const register = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
     try {
         const exists = await User.findOne({ email });
         if (exists) {
@@ -30,11 +30,11 @@ export const register = async (req: Request, res: Response) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
-        const user = await User.create({ email, password: hashedPassword });
+        const user = await User.create({ name, email, password: hashedPassword });
 
         const token = createToken(user._id as mongoose.Types.ObjectId);
 
-        res.status(201).json({ id: user._id, email: user.email, token: token });
+        res.status(201).json({ id: user._id, name: user.name, email: user.email, token: token });
     } catch (err) {
         res.status(500).json({ message: 'Error when registering user.' });
     }

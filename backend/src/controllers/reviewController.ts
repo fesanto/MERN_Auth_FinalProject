@@ -1,4 +1,3 @@
-// backend/src/controllers/reviewController.ts
 import { Response } from 'express';
 import { AuthRequest } from '../middleware/requireAuth';
 import Review from '../models/Review';
@@ -15,7 +14,6 @@ export const createReview = async (req: AuthRequest, res: Response) => {
     const userId = req.user._id;
 
     try {
-        // Encontra nosso livro ou cria um novo se for a primeira review
         let book = await Book.findOne({ googleBooksId });
         if (!book) {
             book = await Book.create({ googleBooksId });
@@ -40,7 +38,7 @@ export const getReviewsForBook = async (req: AuthRequest, res: Response) => {
     try {
         const book = await Book.findOne({ googleBooksId: req.params.googleBooksId });
         if (!book) {
-            return res.json([]); // Se não há livro, não há reviews
+            return res.json([]); // no books, no reviews
         }
 
         const reviews = await Review.find({ book: book._id }).populate('user', 'name');

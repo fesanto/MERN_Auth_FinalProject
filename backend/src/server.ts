@@ -13,7 +13,7 @@ const app = express();
 const corsOptions = {
     origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     optionsSuccessStatus: 200,
-    credentials: true
+    //credentials: true
 };
 
 console.log(`CORS Origin configurado para: ${corsOptions.origin}`);

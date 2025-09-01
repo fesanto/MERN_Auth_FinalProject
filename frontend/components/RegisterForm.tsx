@@ -20,7 +20,7 @@ export default function RegisterForm() {
         setIsLoading(true); // Disables the button when starting the upload
 
         try {
-            const response = await axios.post('process.env.NEXT_PUBLIC_API_URL/api/auth/register', {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
                 name,
                 email,
                 password,

@@ -28,7 +28,7 @@ export default function ReviewForm({ bookId, onReviewSubmitted }: ReviewFormProp
         }
 
         try {
-            await axios.post('process.env.NEXT_PUBLIC_API_URL/api/reviews',
+            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews`,
                 { googleBooksId: bookId, rating, comment },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

@@ -21,7 +21,7 @@ export default function SearchBar({ onSearchResults, onSearchStart, onSearchEnd 
         onSearchStart(); // search started
 
         try {
-            const response = await axios.get(`process.env.NEXT_PUBLIC_API_URL/api/books/search?q=${query}`);
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/books/search?q=${query}`);
             // The Google API returns books within `response.data.items`
             onSearchResults(response.data.items || []);
         } catch (err) {

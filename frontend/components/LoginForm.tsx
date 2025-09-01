@@ -21,7 +21,7 @@ export default function LoginForm() {
 
         try {
             // 1. Request login
-            const response = await axios.post('http://localhost:5000/api/auth/login', {
+            const response = await axios.post('process.env.NEXT_PUBLIC_API_URL/api/auth/login', {
                 email,
                 password,
             });

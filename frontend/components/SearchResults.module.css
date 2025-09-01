@@ -3,3 +3,12 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
 }
+
+.loading,
+.noResults {
+    font-size: 1.1rem;
+    color: #666;
+    text-align: center;
+    grid-column: 1 / -1;
+    margin-top: 2rem;
+}

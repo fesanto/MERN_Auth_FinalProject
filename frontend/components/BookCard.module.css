@@ -1,6 +1,7 @@
 .card {
     display: flex;
     flex-direction: column;
+    background-color: white;
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
@@ -11,20 +12,44 @@
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.imageWrapper {
+    width: 100%;
+    padding-top: 140%;
+    position: relative;
+    background-color: #f0f0f0;
+}
+
+.image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .cardContent {
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .title {
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 600;
     margin: 0 0 0.5rem 0;
     display: -webkit-box;
+    color: #333;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.5em;
 }
 
 .authors {

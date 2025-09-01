@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Book } from '@/types';
 import ReviewForm from '@/components/ReviewForm';
 import ReviewList from '@/components/ReviewList';
+import styles from './book-details.module.css';
 
 // interface for the reviews
 interface IReview {
@@ -84,34 +85,36 @@ export default function BookDetailsPage() {
     const imageUrl = imageLinks?.thumbnail || 'https://placehold.co/150x220?text=Sem+Capa';
 
     return (
-        <div style={{ padding: '2rem' }}>
-            <div style={{ display: 'flex', gap: '2rem' }}>
+        <div className={styles.container}>
+            <section className={styles.bookInfo}>
                 <Image
                     src={imageUrl.replace('http://', 'https://')}
-                    alt={`Capa de ${title}`}
+                    alt={`Book cover ${title}`}
                     width={200}
                     height={300}
-                    style={{ objectFit: 'contain' }}
+                    className={styles.coverImage}
                 />
-                <div>
-                    <h1>{title}</h1>
-                    <h2>por {authors?.join(', ') || 'Author Unknown'}</h2>
-                    {description && (
-                        <div dangerouslySetInnerHTML={{ __html: description }} />
-                    )}
+                <div className={styles.details}>
+                    <h1 className={styles.title}>{title}</h1>
+                    <p className={styles.author}>por {authors?.join(', ') || 'Author Unknown'}</p>
+                    <div
+                        className={styles.description}
+                        dangerouslySetInnerHTML={{ __html: description || 'No description available' }}
+                    />
                 </div>
-            </div>
+            </section>
 
-            <hr />
+            <hr className={styles.separator} />
 
-            <div style={{ marginTop: '2rem' }}>
+            <section className={styles.reviewSection}>
+                <h2>Readers' Reviews</h2>
                 {isLoggedIn ? (
                     <ReviewForm bookId={bookId} onReviewSubmitted={fetchReviews} />
                 ) : (
                     <p>You must be <a href="/login">logged in</a> to leave a review.</p>
                 )}
                 <ReviewList reviews={reviews} />
-            </div>
-        </div>
+            </section>
+        </div >
     );
 }

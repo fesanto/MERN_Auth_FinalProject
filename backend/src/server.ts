@@ -16,6 +16,8 @@ const corsOptions = {
     credentials: true
 };
 
+console.log(`CORS Origin configurado para: ${corsOptions.origin}`);
+
 app.use(cors(corsOptions));
 app.use(express.json());
 

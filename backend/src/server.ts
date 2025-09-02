@@ -13,7 +13,8 @@ const app = express();
 const corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200,
-    //credentials: true
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE' // Allowed HTTP methods
 };
 
 console.log(`CORS Origin configurado para: ${corsOptions.origin}`);

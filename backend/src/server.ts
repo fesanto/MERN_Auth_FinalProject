@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: 'https://mern-auth-final-project.vercel.app',
     optionsSuccessStatus: 200,
     //credentials: true
 };

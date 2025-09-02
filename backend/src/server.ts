@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 const corsOptions = {
-    origin: 'https://mern-auth-final-project.vercel.app',
+    origin: '*',
     optionsSuccessStatus: 200,
     //credentials: true
 };

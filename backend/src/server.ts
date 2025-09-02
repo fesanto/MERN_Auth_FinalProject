@@ -14,7 +14,7 @@ const corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200,
     credentials: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE' // Allowed HTTP methods
+    methods: ['GET','HEAD','PUT','PATCH','POST','DELETE','OPTIONS'] // Allowed HTTP methods
 };
 
 console.log(`CORS Origin configurado para: ${corsOptions.origin}`);

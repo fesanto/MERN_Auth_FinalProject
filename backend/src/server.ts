@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 const corsOptions = {
-    origin: '*',
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     optionsSuccessStatus: 200,
     credentials: true,
     methods: ['GET','HEAD','PUT','PATCH','POST','DELETE','OPTIONS'] // Allowed HTTP methods

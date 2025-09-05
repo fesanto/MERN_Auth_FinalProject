@@ -46,6 +46,19 @@ export default function LoginForm() {
 
     return (
         <div className={styles.wrapper}>
+
+            <div style={{
+                border: '3px solid red',
+                padding: '10px',
+                margin: '20px 0',
+                backgroundColor: '#fff0f0',
+                textAlign: 'center'
+            }}>
+                <p style={{ margin: 0, fontWeight: 'bold', color: 'black', fontSize: '1rem' }}>
+                    URL da API (Debug): {process.env.NEXT_PUBLIC_API_URL || 'NÃO DEFINIDA'}
+                </p>
+            </div>
+
             <div className={styles.formContainer}>
                 <div className={styles.header}>
                     <h1 className={styles.title}>Login</h1>

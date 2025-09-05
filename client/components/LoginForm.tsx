@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import axios from 'axios';
+import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './Form.module.css';
@@ -21,7 +22,7 @@ export default function LoginForm() {
 
         try {
             // 1. Request login
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
+            const response = await api.post('/auth/login', {
                 email,
                 password,
             });
@@ -48,7 +49,7 @@ export default function LoginForm() {
         <div className={styles.wrapper}>
             <div className={styles.formContainer}>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>Login URL da API (Debug): {process.env.NEXT_PUBLIC_API_URL || 'NÃO DEFINIDA'}</h1>
+                    <h1 className={styles.title}>Login</h1>
                 </div>
                 <form onSubmit={handleSubmit} className={styles.form}>
                     {error && <p style={{ color: 'red' }}>{error}</p>}

@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import axios from 'axios';
+import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import styles from './Form.module.css';
 import Button from './Button';
@@ -20,7 +21,7 @@ export default function RegisterForm() {
         setIsLoading(true); // Disables the button when starting the upload
 
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
+            const response = await api.post('/auth/register', {
                 name,
                 email,
                 password,

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
+import api from '@/lib/api';
 import Image from 'next/image';
 import { Book } from '@/types';
 import ReviewForm from '@/components/ReviewForm';
@@ -32,7 +33,7 @@ export default function BookDetailsPage() {
     const fetchReviews = useCallback(async () => { // avoid recreating the function on each render
         if (!bookId) return;
         try {
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/${bookId}`);
+            const res = await api.get(`/reviews/${bookId}`);
             setReviews(res.data);
         } catch (err) {
             console.error("Error fetching reviews", err);
@@ -50,7 +51,7 @@ export default function BookDetailsPage() {
             setIsLoading(true);
             setError('');
             try {
-                const bookDetailsPromise = axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/books/${bookId}`);
+                const bookDetailsPromise = api.get(`/books/${bookId}`);
                 const reviewsPromise = fetchReviews();
 
                 const [bookDetailsResponse] = await Promise.all([bookDetailsPromise, reviewsPromise]);

@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import axios from 'axios';
+import api from '@/lib/api';
 import Button from './Button';
 import { Book } from '../types';
 
@@ -21,7 +22,7 @@ export default function SearchBar({ onSearchResults, onSearchStart, onSearchEnd 
         onSearchStart(); // search started
 
         try {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/books/search?q=${query}`);
+            const response = await api.get(`/books/search?q=${query}`);
             // The Google API returns books within `response.data.items`
             onSearchResults(response.data.items || []);
         } catch (err) {

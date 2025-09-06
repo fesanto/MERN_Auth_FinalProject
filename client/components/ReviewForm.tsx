@@ -1,6 +1,7 @@
 'use client';
 import { useState, FormEvent } from 'react';
 import axios from 'axios';
+import api from '@/lib/api';
 import Button from './Button';
 import styles from './ReviewForm.module.css';
 
@@ -28,7 +29,7 @@ export default function ReviewForm({ bookId, onReviewSubmitted }: ReviewFormProp
         }
 
         try {
-            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews`,
+            await api.post(`/reviews`,
                 { googleBooksId: bookId, rating, comment },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

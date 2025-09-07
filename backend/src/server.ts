@@ -11,11 +11,13 @@ dotenv.config();
 
 const app = express();
 
-app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    optionsSuccessStatus: 200,
     credentials: true
 }));
+
+app.use(express.json());
 
 app.use('/api/auth', authRoutes); // All authentication-related routes will be prefixed with /api/auth
 app.use('/api/books', bookRoutes);

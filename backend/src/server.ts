@@ -21,6 +21,10 @@ app.use('/api/auth', authRoutes); // All authentication-related routes will be p
 app.use('/api/books', bookRoutes);
 app.use('/api/reviews', reviewRoutes);
 
+app.get('/', (req, res) => {
+  res.json({ status: 'API is running successfully!' });
+});
+
 const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.MONGO_URI as string)
     .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))

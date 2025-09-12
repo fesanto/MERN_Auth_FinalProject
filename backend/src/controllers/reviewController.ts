@@ -41,7 +41,9 @@ export const getReviewsForBook = async (req: AuthRequest, res: Response) => {
             return res.json([]); // no books, no reviews
         }
 
-        const reviews = await Review.find({ book: book._id }).populate('user', 'name');
+        const reviews = await Review.find({ book: book._id })
+            .populate('user', 'name')
+            .sort({ createdAt: -1 });
         res.json(reviews);
     } catch (error) {
         res.status(500).json({ message: 'Server error while fetching reviews' });

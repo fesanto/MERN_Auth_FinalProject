@@ -44,8 +44,65 @@ export const getReviewsForBook = async (req: AuthRequest, res: Response) => {
         const reviews = await Review.find({ book: book._id })
             .populate('user', 'name')
             .sort({ createdAt: -1 });
+            
         res.json(reviews);
     } catch (error) {
         res.status(500).json({ message: 'Server error while fetching reviews' });
+    }
+};
+
+// @desc    Update a review
+// @route   PUT /api/reviews/:id
+export const updateReview = async (req: AuthRequest, res: Response) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+
+        const { rating, comment } = req.body;
+        const review = await Review.findById(req.params.id);
+
+        if (!review) {
+            return res.status(404).json({ message: 'Review not found' });
+        }
+
+        if (review.user.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ message: 'Unauthorized user' });
+        }
+
+        review.rating = rating || review.rating;
+        review.comment = comment || review.comment;
+
+        const updatedReview = await review.save();
+        res.json(updatedReview);
+
+    } catch (error) {
+        res.status(500).json({ message: 'Server error while updating the review' });
+    }
+};
+
+// @desc    Delete a review
+// @route   DELETE /api/reviews/:id
+export const deleteReview = async (req: AuthRequest, res: Response) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+
+        const review = await Review.findById(req.params.id);
+
+        if (!review) {
+            return res.status(404).json({ message: 'Review not found' });
+        }
+
+        if (review.user.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ message: 'Unauthorized user' });
+        }
+
+        await review.deleteOne();
+        res.json({ message: 'Review successfully removed' });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Server error when deleting the review' });
     }
 };

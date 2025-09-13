@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import styles from './ReviewList.module.css';
 
 interface Review {
@@ -35,6 +35,20 @@ export default function ReviewList({ reviews, onReviewDeleted, onReviewUpdated }
         setEditedRating(review.rating);
     };
 
+    const handleError = (error: any, action: string) => {
+        const axiosError = error as AxiosError<{ message: string }>;
+        if (axiosError.response) {
+            console.error(`Error when ${action} the review (Status: ${axiosError.response.status}):`, axiosError.response.data);
+            alert(`Error ${axiosError.response.status}: ${axiosError.response.data.message || `Unable to ${action} review.`}`);
+        } else if (axiosError.request) {
+            console.error(`Network error ${action} review:`, axiosError.request);
+            alert('Network error: Unable to contact server.');
+        } else {
+            console.error(`Error configuring ${action} request:`, axiosError.message);
+            alert(`An error occurred while preparing the request to ${action}.`);
+        }
+    };
+
     const handleDelete = async (reviewId: string) => {
         if (confirm('Are you sure you want to delete this review?')) {
             try {
@@ -44,8 +58,7 @@ export default function ReviewList({ reviews, onReviewDeleted, onReviewUpdated }
                 });
                 onReviewDeleted(reviewId);
             } catch (error) {
-                console.error('Error deleting review:', error);
-                alert('The review could not be deleted.');
+                handleError(error, 'delete');
             }
         }
     };
@@ -53,16 +66,14 @@ export default function ReviewList({ reviews, onReviewDeleted, onReviewUpdated }
     const handleUpdate = async (reviewId: string) => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await axios.put(
-                `/reviews/${reviewId}`,
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/${reviewId}`,
                 { comment: editedComment, rating: editedRating },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             onReviewUpdated(response.data);
             setEditingReviewId(null);
         } catch (error) {
-            console.error('Error updating review:', error);
-            alert('The review could not be updated.');
+            handleError(error, 'update');
         }
     };
 
@@ -72,18 +83,21 @@ export default function ReviewList({ reviews, onReviewDeleted, onReviewUpdated }
             {reviews.length === 0 ? (
                 <p>This book has no reviews yet. Be the first to write one!</p>
             ) : (
-                reviews.map(review => (
+                reviews.map((review) => (
                     <div key={review._id} className={styles.reviewCard}>
                         <div className={styles.cardHeader}>
                             <span className={styles.userName}>{review.user.name}</span>
-                            <div className={styles.starRating}>
-                                {[...Array(5)].map((_, index) => (
-                                    <span key={index} className={index < review.rating ? styles.starFull : styles.starEmpty}>
-                                        ★
-                                    </span>
-                                ))}
-                            </div>
+                            {editingReviewId !== review._id && (
+                                <div className={styles.starRating}>
+                                    {[...Array(5)].map((_, index) => (
+                                        <span key={index} className={index < review.rating ? styles.starFull : styles.starEmpty}>
+                                            ★
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
                         </div>
+
                         {editingReviewId === review._id ? (
                             <div className={styles.editContainer}>
                                 <select
@@ -104,8 +118,8 @@ export default function ReviewList({ reviews, onReviewDeleted, onReviewUpdated }
                                     rows={4}
                                 />
                                 <div className={styles.editActions}>
-                                    <button onClick={() => handleUpdate(review._id)} className={styles.saveButton}>Guardar</button>
-                                    <button onClick={() => setEditingReviewId(null)} className={styles.cancelButton}>Cancelar</button>
+                                    <button onClick={() => handleUpdate(review._id)} className={styles.saveButton}>Save</button>
+                                    <button onClick={() => setEditingReviewId(null)} className={styles.cancelButton}>Cancel</button>
                                 </div>
                             </div>
                         ) : (
@@ -113,12 +127,12 @@ export default function ReviewList({ reviews, onReviewDeleted, onReviewUpdated }
                                 <p className={styles.comment}>{review.comment}</p>
                                 <div className={styles.cardFooter}>
                                     <p className={styles.date}>
-                                        Publicado em {new Date(review.createdAt).toLocaleDateString()}
+                                        Posted on {new Date(review.createdAt).toLocaleDateString()}
                                     </p>
                                     {loggedInUserId === review.user._id && (
                                         <div className={styles.actions}>
-                                            <button onClick={() => handleEditClick(review)} className={styles.editButton}>Editar</button>
-                                            <button onClick={() => handleDelete(review._id)} className={styles.deleteButton}>Apagar</button>
+                                            <button onClick={() => handleEditClick(review)} className={styles.editButton}>Edit</button>
+                                            <button onClick={() => handleDelete(review._id)} className={styles.deleteButton}>Delete</button>
                                         </div>
                                     )}
                                 </div>

@@ -26,7 +26,8 @@ export const createReview = async (req: AuthRequest, res: Response) => {
             comment,
         });
 
-        res.status(201).json(review);
+        const populatedReview = await review.populate('user', 'name _id');
+        res.status(201).json(populatedReview);
     } catch (error) {
         res.status(500).json({ message: 'Server error while creating review' });
     }
@@ -42,7 +43,7 @@ export const getReviewsForBook = async (req: AuthRequest, res: Response) => {
         }
 
         const reviews = await Review.find({ book: book._id })
-            .populate('user', 'name')
+            .populate('user', 'name _id')
             .sort({ createdAt: -1 });
             
         res.json(reviews);
@@ -73,8 +74,9 @@ export const updateReview = async (req: AuthRequest, res: Response) => {
         review.rating = rating || review.rating;
         review.comment = comment || review.comment;
 
-        const updatedReview = await review.save();
-        res.json(updatedReview);
+        await review.save();
+        const populatedReview = await Review.findById(review._id).populate('user', 'name _id');
+        res.json(populatedReview);
 
     } catch (error) {
         res.status(500).json({ message: 'Server error while updating the review' });

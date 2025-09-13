@@ -28,8 +28,9 @@ export default function LoginForm() {
 
             console.log('Complete answer from the backend:', response.data);
 
-            // 2. SUCCESS! Store the received token in localStorage
+            // 2. SUCCESS! Store the received token and the user id in localStorage
             localStorage.setItem('authToken', response.data.token);
+            localStorage.setItem('userId', response.data.id);
 
             console.log('Login successful! Token saved.');
 

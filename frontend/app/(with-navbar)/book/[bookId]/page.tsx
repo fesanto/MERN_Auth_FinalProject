@@ -4,15 +4,28 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
 import Image from 'next/image';
-import { Book } from '@/types';
 import ReviewForm from '@/components/ReviewForm';
 import ReviewList from '@/components/ReviewList';
 import styles from './book-details.module.css';
 
-// interface for the reviews
-interface IReview {
+interface Book {
+    id: string;
+    volumeInfo: {
+        title: string;
+        authors?: string[];
+        description?: string;
+        imageLinks?: {
+            thumbnail: string;
+        };
+    };
+}
+
+interface Review {
     _id: string;
-    user: { name: string };
+    user: {
+        _id: string;
+        name: string;
+    };
     rating: number;
     comment: string;
     createdAt: string;
@@ -24,7 +37,7 @@ export default function BookDetailsPage() {
 
     // States for storing book data, review, logged in user, loading, and errors
     const [book, setBook] = useState<Book | null>(null);
-    const [reviews, setReviews] = useState<IReview[]>([]);
+    const [reviews, setReviews] = useState<Review[]>([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
@@ -51,11 +64,12 @@ export default function BookDetailsPage() {
             setError('');
             try {
                 const bookDetailsPromise = axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/books/${bookId}`);
-                const reviewsPromise = fetchReviews();
+                const reviewsPromise = axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/${bookId}`);
 
-                const [bookDetailsResponse] = await Promise.all([bookDetailsPromise, reviewsPromise]);
+                const [bookDetailsResponse, reviewsResponse] = await Promise.all([bookDetailsPromise, reviewsPromise]);
 
                 setBook(bookDetailsResponse.data);
+                setReviews(reviewsResponse.data);
             } catch (err) {
                 console.error('Error retrieving book details:', err);
                 setError('The book details could not be loaded.');
@@ -67,17 +81,27 @@ export default function BookDetailsPage() {
         fetchBookDetails();
     }, [bookId, fetchReviews]); // The search is redone if the bookId changes
 
+    const handleReviewDeleted = (deletedReviewId: string) => {
+        setReviews(currentReviews => currentReviews.filter(review => review._id !== deletedReviewId));
+    };
+
+    const handleReviewUpdated = (updatedReview: Review) => {
+        setReviews(currentReviews =>
+            currentReviews.map(review => (review._id === updatedReview._id ? updatedReview : review))
+        );
+    };
+
     // Conditional rendering based on states
     if (isLoading) {
-        return <div>Loading book details...</div>;
+        return <div className={styles.loading}>Loading book details...</div>;
     }
 
     if (error) {
-        return <div style={{ color: 'red' }}>{error}</div>;
+        return <div className={styles.error}>{error}</div>;
     }
 
     if (!book) {
-        return <div>Book not found.</div>;
+        return <div className={styles.error}>Book not found.</div>;
     }
 
     // Rendering of book details
@@ -113,7 +137,11 @@ export default function BookDetailsPage() {
                 ) : (
                     <p>You must be <a href="/login">logged in</a> to leave a review.</p>
                 )}
-                <ReviewList reviews={reviews} />
+                <ReviewList
+                    reviews={reviews}
+                    onReviewDeleted={handleReviewDeleted}
+                    onReviewUpdated={handleReviewUpdated}
+                />
             </section>
         </div >
     );

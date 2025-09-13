@@ -1,12 +1,11 @@
 .button {
     padding: 10px 20px;
-    margin-top: 1.5rem;
     font-size: 1rem;
     font-weight: bold;
     color: white;
     background-color: #7E20F4;
     border: none;
-    border-radius: 50px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
 }

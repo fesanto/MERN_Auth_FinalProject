@@ -108,3 +108,22 @@ export const deleteReview = async (req: AuthRequest, res: Response) => {
         res.status(500).json({ message: 'Server error when deleting the review' });
     }
 };
+
+// @desc    Get all the reviews from the logged-in user
+// @route   GET /api/reviews/my-reviews
+export const getMyReviews = async (req: AuthRequest, res: Response) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+
+        const reviews = await Review.find({ user: req.user._id })
+            .populate('book', 'googleBooksId') 
+            .sort({ createdAt: -1 });
+
+        res.json(reviews);
+
+    } catch (error) {
+        res.status(500).json({ message: 'Erro de servidor ao buscar as reviews' });
+    }
+};

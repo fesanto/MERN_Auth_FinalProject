@@ -8,9 +8,10 @@ import styles from './profile.module.css';
 // Instead of uses import { Review } from '@/types';, define it here
 interface Review {
     _id: string;
-    book: { googleBooksId: string; };
+    book: { googleBooksId: string; title?: string; authors?: string[]; };
     rating: number;
     comment: string;
+    createdAt: string;
 }
 
 export default function ProfilePage() {
@@ -52,9 +53,11 @@ export default function ProfilePage() {
                 <div className={styles.reviewsGrid}>
                     {myReviews.map(review => (
                         <div key={review._id} className={styles.reviewCard}>
-                            <p><strong>Book:</strong> <a href={`/book/${review.book.googleBooksId}`}>{review.book.googleBooksId}</a></p>
+                            <p><strong>Book:</strong> <a href={`/book/${review.book.googleBooksId}`}>{review.book.title || review.book.googleBooksId}</a></p>
+                            {review.book.authors && <p className={styles.authors}>by {review.book.authors.join(', ')}</p>}
                             <p><strong>Rating:</strong> {review.rating}/5</p>
                             <p>"{review.comment}"</p>
+                            <p className={styles.date}>Posted on {new Date(review.createdAt).toLocaleDateString()}</p>
                         </div>
                     ))}
                 </div>

@@ -4,10 +4,11 @@ import requireAuth from '../middleware/requireAuth';
 
 const router = Router();
 
-router.post('/', requireAuth, createReview);
+router.get('/my-reviews', requireAuth, getMyReviews);
 router.get('/:googleBooksId', getReviewsForBook);
+router.post('/', requireAuth, createReview);
 router.put('/:id', requireAuth, updateReview);
 router.delete('/:id', requireAuth, deleteReview);
-router.get('/my-reviews', requireAuth, getMyReviews);
+
 
 export default router;

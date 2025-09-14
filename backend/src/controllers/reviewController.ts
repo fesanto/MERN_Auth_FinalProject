@@ -2,6 +2,14 @@ import { Response } from 'express';
 import { AuthRequest } from '../middleware/requireAuth';
 import Review from '../models/Review';
 import Book from '../models/Book';
+import axios from 'axios';
+
+interface GoogleBookApiResponse {
+    volumeInfo: {
+        title: string;
+        authors?: string[];
+    };
+}
 
 // @desc    Create a new review
 // @route   POST /api/reviews
@@ -45,10 +53,54 @@ export const getReviewsForBook = async (req: AuthRequest, res: Response) => {
         const reviews = await Review.find({ book: book._id })
             .populate('user', 'name _id')
             .sort({ createdAt: -1 });
-            
+
         res.json(reviews);
     } catch (error) {
         res.status(500).json({ message: 'Server error while fetching reviews' });
+    }
+};
+
+
+// @desc    Get all the reviews from the logged-in user
+// @route   GET /api/reviews/my-reviews
+export const getMyReviews = async (req: AuthRequest, res: Response) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+
+        const reviews = await Review.find({ user: req.user._id })
+            .populate('book', 'googleBooksId')
+            .sort({ createdAt: -1 });
+
+        const enrichedReviewsPromises = reviews.map(async (review) => {
+            try {
+                const bookId = (review.book as any).googleBooksId;
+                const GOOGLE_API_KEY = process.env.GOOGLE_BOOKS_API_KEY;
+
+                const { data: bookDetails } = await axios.get<GoogleBookApiResponse>(
+                    `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${GOOGLE_API_KEY}`
+                );
+
+                return {
+                    ...review.toObject(),
+                    book: {
+                        googleBooksId: bookId,
+                        title: bookDetails.volumeInfo.title,
+                        authors: bookDetails.volumeInfo.authors || [],
+                    },
+                };
+            } catch (error) {
+                return review.toObject();
+            }
+        });
+
+        const enrichedReviews = await Promise.all(enrichedReviewsPromises);
+
+        res.json(enrichedReviews);
+
+    } catch (error) {
+        res.status(500).json({ message: 'Server error when fetching reviews' });
     }
 };
 

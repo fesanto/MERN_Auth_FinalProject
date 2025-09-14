@@ -13,6 +13,8 @@ export const createReview = async (req: AuthRequest, res: Response) => {
     const { googleBooksId, rating, comment } = req.body;
     const userId = req.user._id;
 
+    console.log(`[createReview] A tentar criar uma review para o utilizador ID: ${userId}`);
+
     try {
         let book = await Book.findOne({ googleBooksId });
         if (!book) {
@@ -45,10 +47,36 @@ export const getReviewsForBook = async (req: AuthRequest, res: Response) => {
         const reviews = await Review.find({ book: book._id })
             .populate('user', 'name _id')
             .sort({ createdAt: -1 });
-            
+
         res.json(reviews);
     } catch (error) {
         res.status(500).json({ message: 'Server error while fetching reviews' });
+    }
+};
+
+
+// @desc    Get all the reviews from the logged-in user
+// @route   GET /api/reviews/my-reviews
+export const getMyReviews = async (req: AuthRequest, res: Response) => {
+    if (!req.user) {
+        return res.status(401).json({ message: 'Não autorizado' });
+    }
+
+    console.log(`[getMyReviews] A procurar por reviews do utilizador ID: ${req.user._id}`);
+
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+
+        const reviews = await Review.find({ user: req.user._id })
+            .populate('book', 'googleBooksId')
+            .sort({ createdAt: -1 });
+
+        res.json(reviews);
+
+    } catch (error) {
+        res.status(500).json({ message: 'Erro de servidor ao buscar as reviews' });
     }
 };
 
@@ -106,24 +134,5 @@ export const deleteReview = async (req: AuthRequest, res: Response) => {
 
     } catch (error) {
         res.status(500).json({ message: 'Server error when deleting the review' });
-    }
-};
-
-// @desc    Get all the reviews from the logged-in user
-// @route   GET /api/reviews/my-reviews
-export const getMyReviews = async (req: AuthRequest, res: Response) => {
-    try {
-        if (!req.user) {
-            return res.status(401).json({ message: 'Not authorized' });
-        }
-
-        const reviews = await Review.find({ user: req.user._id })
-            .populate('book', 'googleBooksId') 
-            .sort({ createdAt: -1 });
-
-        res.json(reviews);
-
-    } catch (error) {
-        res.status(500).json({ message: 'Erro de servidor ao buscar as reviews' });
     }
 };

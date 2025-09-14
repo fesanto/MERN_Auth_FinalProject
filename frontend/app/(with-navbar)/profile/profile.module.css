@@ -1,0 +1,53 @@
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 1rem;
+}
+
+.loading,
+.noReviews {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+  margin-top: 4rem;
+}
+
+.reviewsGrid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.reviewCard {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: box-shadow 0.2s;
+}
+
+.reviewCard:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.reviewCard p {
+  margin: 0 0 0.5rem 0;
+}
+
+.reviewCard a {
+  color: #8A2BE2;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.reviewCard a:hover {
+  text-decoration: underline;
+}

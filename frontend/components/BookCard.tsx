@@ -14,11 +14,7 @@ export default function BookCard({ book }: BookCardProps) {
 
     return (
         <Link
-            href={`/book/${book.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.card}
-        >
+            href={`/book/${book.id}`} className={styles.card}>
             <div className={styles.imageWrapper}>
                 <Image
                     src={imageUrl}

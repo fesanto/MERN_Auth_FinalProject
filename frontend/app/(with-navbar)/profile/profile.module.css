@@ -2,29 +2,65 @@
   max-width: 900px;
   margin: 2rem auto;
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
-.title {
+.pageTitle {
   font-size: 2.5rem;
   font-weight: 700;
   color: #333;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   border-bottom: 2px solid #f0f0f0;
   padding-bottom: 1rem;
 }
 
-.date {
-  font-size: 0.8rem;
-  color: #999;
-  text-align: right;
-  margin-top: 1rem;
+.sectionTitle {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 1.5rem;
 }
 
-.authors {
+.accountDetails {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.detailsContent p {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 0 0 0.75rem 0;
+}
+
+.detailsContent strong {
+  color: #333;
+}
+
+.accountActions {
+  margin-top: 1.5rem;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 1.5rem;
+  text-align: right;
+}
+
+.editButton {
+  background-color: #8A2BE2;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
   font-size: 0.9rem;
-  color: #777;
-  font-style: italic;
-  margin-top: -0.25rem; 
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.editButton:hover {
+  background-color: #7B1FA2;
 }
 
 .loading,
@@ -49,19 +85,104 @@
 }
 
 .reviewCard:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .reviewCard p {
   margin: 0 0 0.5rem 0;
 }
 
-.reviewCard a {
+.bookLink {
   color: #8A2BE2;
   text-decoration: none;
   font-weight: 500;
 }
 
-.reviewCard a:hover {
+.bookLink:hover {
   text-decoration: underline;
+}
+
+.authors {
+  font-size: 0.9rem;
+  color: #777;
+  font-style: italic;
+  margin-top: -0.25rem;
+}
+
+.date {
+  font-size: 0.8rem;
+  color: #999;
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.editProfileForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-weight: 500;
+  color: #555;
+  font-size: 0.875rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: #fff;
+  color: #333;
+}
+
+.input:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+
+.saveButton,
+.cancelButton {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.saveButton {
+  background-color: #8A2BE2;
+  /* Roxo */
+  color: white;
+}
+
+.saveButton:hover {
+  background-color: #7B1FA2;
+  /* Roxo mais escuro */
+}
+
+.cancelButton {
+  background-color: transparent;
+  color: #555;
+  border: 1px solid #ccc;
+}
+
+.cancelButton:hover {
+  background-color: #f0f0f0;
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 0.875rem;
 }
